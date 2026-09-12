@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+
+<body>
+<button id="solicitud" onclick="solicitar()">Solicitar</button>
+<p id="texto">Pulsa el botón para solicitar los datos</p>
+</body>
+    
+<script>
+function solicitar(){
+// Definir texto de carga
+document.getElementById("texto").innerHTML="Cargando datos...";
+// Definir la API Key
+var AK=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb21lZGFAZ21haWwuY29tIiwianRpIjoiMjA3YjE3YWQtNjgwYi00OWEwLTkwNjktYzQ2ZTU0MjA2MWVlIiwiZXhwIjoxNzk3ODYyNzUxLCJpc3MiOiJBRU1FVCIsImlhdCI6MTc4OTIyMjc1MSwidXNlcklkIjoiMjA3YjE3YWQtNjgwYi00OWEwLTkwNjktYzQ2ZTU0MjA2MWVlIiwicm9sZSI6IiJ9.aGbsOAx-xowsp7wU6WlxubieBrcSjh_yiN1I1S_Sltg;
+// Definir URLs de solicitud
+var URL1="https://opendata.aemet.es/opendata/api/observacion/convencional/todas";
+var URL2="";
+
+// Crear objetos XMLHttpRequest
+const xhttp1 = new XMLHttpRequest();
+const xhttp2 = new XMLHttpRequest();
+
+// Definir función de respuesta a la primera solicitud:
+// Queremos acceder a la URL del campo "datos"
+xhttp1.onload = function() {
+  // 1º Pasamos la respuesta a JSON:
+  URL2=JSON.parse(this.responseText);
+  // 2º Obtenemos el campo "datos":
+  URL2=URL2.datos;  
+  // 3º Hacemos la nueva petición:
+  xhttp2.open("GET", URL2);
+  xhttp2.send();
+}
+// Definir función de respuesta a la segunda solicitud:
+// Modificaremos la línea de texto de la página con información descargada
+xhttp2.onload = function() {
+  // 1º Pasamos la respuesta a JSON (se trabaja mejor así):
+  var datos=JSON.parse(this.responseText);
+  // 2º Obtenemos la longitud del objeto JSON
+  // Esto equivale a registros horarios individuales por estaciones
+  var registros=datos.length;
+  // 3º Obtenemos la fecha del primer registro.
+  // Le daremos un formato más legible ya que está en ISO
+  var fechaini=datos[0].fint;
+  fechaini=new Date(fechaini+"Z");
+  fechaini=fechaini.toLocaleDateString()+" "+fechaini.toLocaleTimeString();
+  // 4º Obtenemos la fecha del último registro
+  // Le damos el mismo formato
+  var fechafin=datos[(datos.length-1)].fint;
+  fechafin=new Date(fechaini+"Z");
+  fechafin=fechafin.toLocaleDateString()+" "+fechafin.toLocaleTimeString();
+  // 5º Unimos la información en la línea de texto
+  document.getElementById("texto").innerHTML="Se han descargado <b>"+registros+"</b> registros desde el <b>"+fechaini+"</b> hasta el <b>"+fechafin+"</b>. <a href='"+URL2+"' target='_blank'>Ver todos los datos.</a>";
+}
+// Enviar la solicitud
+xhttp1.open("GET", URL1+"/?api_key="+AK);
+xhttp1.send();
+}
+</script>
+    
+</html>
