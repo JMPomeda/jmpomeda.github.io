@@ -44,8 +44,16 @@ xhttp2.onload = function() {
   // Esto equivale a registros horarios individuales por estaciones
   var registros=datos.length;
   // 3º Obtenemos la fecha del primer registro.
-  // Le daremos un formato más legible ya que está en ISO
-  var fechaini=datos[0].fint;
+  // Le daremos un formato más legible ya que está en ISO        ******************************
+var fechaini = new Date(datos[0].fint);
+fechaini = fechaini.toLocaleDateString() + " " + fechaini.toLocaleTimeString();
+
+// 4º Obtenemos la fecha del último registro
+// Le damos el mismo formato
+var fechafin = new Date(datos[datos.length - 1].fint);
+fechafin = fechafin.toLocaleDateString() + " " + fechafin.toLocaleTimeString();
+    
+/*  var fechaini=datos[0].fint;
   var fecha1=datos[0].fint;  
   fechaini=new Date(fechaini+"Z");
   fechaini=fechaini.toLocaleDateString()+" "+fechaini.toLocaleTimeString();
@@ -54,6 +62,7 @@ xhttp2.onload = function() {
   var fechafin=datos[(datos.length-1)].fint;
   fechafin=new Date(fechaini+"Z");
   fechafin=fechafin.toLocaleDateString()+" "+fechafin.toLocaleTimeString();
+  */  
   // 5º Unimos la información en la línea de texto
   document.getElementById("texto").innerHTML="Se han descargado <b>"+registros+"</b> registros desde el <b>"+fecha1+"</b> hasta el <b>"+fechafin+"</b>. <a href='"+URL2+"' target='_blank'>Ver todos los datos.</a>";
 }
