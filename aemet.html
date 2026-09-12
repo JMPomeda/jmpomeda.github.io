@@ -46,8 +46,8 @@ xhttp2.onload = function() {
   // 3º Obtenemos la fecha del primer registro.
   // Le daremos un formato más legible ya que está en ISO
   var fechaini=datos[0].fint;
-  fechaini=new Date(fechaini+"Z");
-//  fechaini=fechaini.toLocaleDateString()+" "+fechaini.toLocaleTimeString();
+//  fechaini=new Date(fechaini+"Z");
+  fechaini=fechaini.toLocaleDateString()+" "+fechaini.toLocaleTimeString();
   // 4º Obtenemos la fecha del último registro
   // Le damos el mismo formato
   var fechafin=datos[(datos.length-1)].fint;
