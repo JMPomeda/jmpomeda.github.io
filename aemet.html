@@ -46,7 +46,8 @@ xhttp2.onload = function() {
   // 3º Obtenemos la fecha del primer registro.
   // Le daremos un formato más legible ya que está en ISO
   var fechaini=datos[0].fint;
-//  fechaini=new Date(fechaini+"Z");
+  var fecha1=datos[0].fint;  
+  fechaini=new Date(fechaini+"Z");
   fechaini=fechaini.toLocaleDateString()+" "+fechaini.toLocaleTimeString();
   // 4º Obtenemos la fecha del último registro
   // Le damos el mismo formato
@@ -54,7 +55,7 @@ xhttp2.onload = function() {
   fechafin=new Date(fechaini+"Z");
   fechafin=fechafin.toLocaleDateString()+" "+fechafin.toLocaleTimeString();
   // 5º Unimos la información en la línea de texto
-  document.getElementById("texto").innerHTML="Se han descargado <b>"+registros+"</b> registros desde el <b>"+fechaini+"</b> hasta el <b>"+fechafin+"</b>. <a href='"+URL2+"' target='_blank'>Ver todos los datos.</a>";
+  document.getElementById("texto").innerHTML="Se han descargado <b>"+registros+"</b> registros desde el <b>"+fecha1+"</b> hasta el <b>"+fechafin+"</b>. <a href='"+URL2+"' target='_blank'>Ver todos los datos.</a>";
 }
 // Enviar la solicitud
 xhttp1.open("GET", URL1+"/?api_key="+AK);
